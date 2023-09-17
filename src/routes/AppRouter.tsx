@@ -1,4 +1,5 @@
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import LaunchScreen from "@/pages/LaunchScreen";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 const AppRouter = () => {
   const auth = false;
@@ -9,9 +10,10 @@ export default AppRouter;
 
 const UnAuthenticatedRoutes = () => {
   return (
-    <Router>
+    <Router basename="/">
       <Routes>
-        <Route path="/" element={<>Not logged in</>} />
+        <Route index element={<LaunchScreen />} />
+        <Route path="/signin" element={<>Sign in page</>} />
       </Routes>
     </Router>
   );
