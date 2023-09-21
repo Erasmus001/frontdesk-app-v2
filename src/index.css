@@ -29,6 +29,10 @@ body {
   min-height: 100vh;
 }
 
+body::-webkit-scrollbar {
+  visibility: hidden;
+}
+
 
 button {
   border-radius: 5px;
