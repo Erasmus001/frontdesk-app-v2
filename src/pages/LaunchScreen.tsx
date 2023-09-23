@@ -1,15 +1,26 @@
 import Logo from "@/assets/icon.png";
-import { useEffect } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const LaunchScreen = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [user, setUser] = useState<object>({});
+
   const navigate = useNavigate();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setTimeout(() => {
-      navigate("/")
-    }, 4000);
-  }, [navigate]);
+      const localUser = localStorage.getItem("user");
+      const localUserAuthState = localStorage.getItem("authstate");
+
+      if (localUserAuthState && localUser) {
+        setIsLoggedIn(true);
+        // setUser(localUser)
+      }
+      navigate("/signin");
+    }, 5000);
+    console.log(user, "local user");
+  }, [user, isLoggedIn, navigate]);
 
   return (
     <main className="h-screen w-screen bg-white flex items-center justify-center flex-col gap-2">
@@ -28,4 +39,4 @@ const LaunchScreen = () => {
 
 export default LaunchScreen;
 
-// [#3D79F3]
+//* [#3D79F3]

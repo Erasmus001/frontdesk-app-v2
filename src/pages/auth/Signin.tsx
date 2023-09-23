@@ -1,17 +1,46 @@
-import Button from "@/components/ui/Button";
-import { Link } from "react-router-dom";
+// import Button from "@/components/ui/Button";
+import { FormEvent, useState } from "react";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
+import Logo from "@/assets/logoipsum-261.svg";
 
 const Signin = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const navigate = useNavigate();
+
+  const handleSignin = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsLoading(true);
+
+    const save = () => {
+      localStorage.setItem("user", JSON.stringify({ email, password }));
+      localStorage.setItem("userAuthState", "true");
+    };
+    save();
+
+    setTimeout(() => {
+      toast.success("Account created successfully.");
+      setIsLoading(false);
+      navigate("/dashboard");
+    }, 3000);
+  };
+
   return (
     <main className="h-screen w-screen flex items-center justify-center text-black flex-col gap-7">
       {/* Header */}
-      <div className="text-center">
+      <div className="flex items-center justify-center flex-col gap-3">
+        <img src={Logo} alt="logo" loading="eager" className="mb-8" />
         <h2 className="text-3xl font-bold">Welcome Back</h2>
-        {/* <p>Welcome, please signin with your email and password</p> */}
       </div>
 
       {/* Form */}
-      <form className="w-[330px] flex items-start flex-col gap-4 mt-4">
+      <form
+        className="w-[380px] flex items-start flex-col gap-4 mt-4"
+        onSubmit={handleSignin}
+      >
         <div className="w-full flex items-start justify-start flex-col gap-2">
           <label htmlFor="email" className="text-base font-semibold">
             Email
@@ -21,8 +50,10 @@ const Signin = () => {
             id="email"
             name="email"
             placeholder="Johndoe@example.com"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
             required
-            className="w-full py-2 px-3 border border-gray-300 rounded-md text-base focus:outline-[#3D79F3] placeholder:text-sm"
+            className="w-full py-3 px-3 border border-gray-300 rounded-md text-base focus:outline-[#3D79F3] placeholder:text-sm bg-gray-100 focus:bg-transparent"
             title="Enter your valid email"
           />
         </div>
@@ -35,32 +66,32 @@ const Signin = () => {
             id="password"
             name="password"
             placeholder="Johndoe@example.com"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
             required
-            className="w-full py-2 px-3 border border-gray-300 rounded-md text-base focus:outline-[#3D79F3] placeholder:text-sm"
+            className="w-full py-3 px-3 border border-gray-300 rounded-md text-base focus:outline-[#3D79F3] placeholder:text-sm bg-gray-100 focus:bg-transparent"
             title="Create a strong password"
           />
-          <div className="flex w-full items-center justify-between text-sm">
+          <div className="flex w-full items-center justify-between text-base">
             <span className="flex items-center justify-center gap-2">
               <input type="checkbox" name="remember-me" id="remember-me" />
               <label htmlFor="remember-me">Remember me</label>
             </span>
             <Link
               to={"/reset-password"}
-              className="hover:underline hover:underline-offset-2"
+              className="hover:underline hover:underline-offset-2 text-[#3D79F3]"
             >
               Forgot password?
             </Link>
           </div>
         </div>
         <div className="w-full">
-          <Button
-            bgColor="#3D79F3"
-            color="white"
+          <button
             type="submit"
-            // variant="default" /* if this prop isnt provided, it defaults to filled */
+            className="p-3 bg-[#3D79F3] w-full text-white text-lg hover:bg-blue-600 hover:ease-linear"
           >
-            Sign in
-          </Button>
+            {isLoading ? "Signing in" : "Sign in"}
+          </button>
         </div>
       </form>
       <div>
@@ -68,7 +99,7 @@ const Signin = () => {
           <p>Don't have an account?</p>
           <Link
             to={"/signup"}
-            className="hover:underline hover:underline-offset-2"
+            className="hover:underline hover:underline-offset-2 text-[#3D79F3]"
           >
             Signup
           </Link>
