@@ -71,6 +71,13 @@ const UnAuthenticatedRoutes = () => {
         <Route path="/verify" element={<VerifyEmail />} />
         <Route path="/setup-org" element={<SetupOrganization />} />
         <Route path="/create-receptionist" element={<VerifyEmail />} />
+        <Route element={<DashboardLayout />}>
+          <Route index path="/" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/visitors" element={<Visitors />} />
+          <Route path="/deliveries" element={<Deliveries />} />
+          <Route path="/enquiries" element={<Enquiries />} />
+        </Route>
       </Routes>
     </Router>
   );

@@ -2,16 +2,17 @@ import Logo from "@/assets/logoipsum-261.svg";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const SetupOrganization = () => {
-  const [organizationName, setOrganizationName] = useState<string>("");
-  const [organizationEmail, setOrganizationEmail] = useState<string>("");
+const CreateReceptionist = () => {
+  const [receptionistName, setReceptionistName] = useState<string>("");
+  const [receptionistEmail, setReceptionistEmail] = useState<string>("");
+  const [receptionistPassword, setReceptionistPaswword] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
   const handleOrganizationSetup = () => {
     setIsLoading(true);
-    console.log({ organizationName, organizationEmail });
+    console.log({ receptionistName, receptionistEmail });
     setIsLoading(false);
   };
 
@@ -41,36 +42,52 @@ const SetupOrganization = () => {
           onSubmit={handleOrganizationSetup}
         >
           <div className="w-full flex items-start justify-start flex-col gap-2">
-            <label htmlFor="org-name" className="text-lg font-semibold">
-              Organization Name
+            <label htmlFor="recep-name" className="text-lg font-semibold">
+              Receptionist Fullname
             </label>
             <input
               type="text"
-              id="org-name"
+              id="recep-name"
               name="name"
-              placeholder="John Software Organization"
+              placeholder="Jane Doe"
               required
               disabled={isLoading}
               className="w-full py-3 px-3 border border-gray-300 rounded-md text-base focus:outline-[#3D79F3] placeholder:text-sm bg-gray-100 focus:bg-transparent"
               title="Enter your valid email"
-              value={organizationName}
-              onChange={(event) => setOrganizationName(event.target.value)}
+              value={receptionistName}
+              onChange={(event) => setReceptionistName(event.target.value)}
             />
           </div>
           <div className="w-full flex items-start justify-start flex-col gap-2">
-            <label htmlFor="org-email" className="text-lg font-semibold">
+            <label htmlFor="recep-email" className="text-lg font-semibold">
               Organization Email
             </label>
             <input
               type="email"
-              id="org-email"
+              id="recep-email"
               name="email"
               placeholder="Johndoe@example.com"
               required
               className="w-full py-3 px-3 border border-gray-300 rounded-md text-base focus:outline-[#3D79F3] placeholder:text-sm bg-gray-100 focus:bg-transparent"
               title="Enter your organization name"
-              value={organizationEmail}
-              onChange={(event) => setOrganizationEmail(event.target.value)}
+              value={receptionistEmail}
+              onChange={(event) => setReceptionistEmail(event.target.value)}
+            />
+          </div>
+          <div className="w-full flex items-start justify-start flex-col gap-2">
+            <label htmlFor="recep-email" className="text-lg font-semibold">
+              Organization Email
+            </label>
+            <input
+              type="password"
+              id="recep-email"
+              name="email"
+              placeholder="Johndoe@example.com"
+              required
+              className="w-full py-3 px-3 border border-gray-300 rounded-md text-base focus:outline-[#3D79F3] placeholder:text-sm bg-gray-100 focus:bg-transparent"
+              title="Enter your organization name"
+              value={receptionistPassword}
+              onChange={(event) => setReceptionistPaswword(event.target.value)}
             />
           </div>
           <div className="w-full flex items-center justify-center gap-4">
@@ -96,4 +113,4 @@ const SetupOrganization = () => {
   );
 };
 
-export default SetupOrganization;
+export default CreateReceptionist;

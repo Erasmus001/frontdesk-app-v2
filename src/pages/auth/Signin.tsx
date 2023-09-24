@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // import Button from "@/components/ui/Button";
-import { FormEvent, useState } from "react";
+import { FormEvent, useLayoutEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "@/assets/logoipsum-261.svg";
@@ -15,16 +16,16 @@ const Signin = () => {
     event.preventDefault();
     setIsLoading(true);
 
-    const save = () => {
-      localStorage.setItem("user", JSON.stringify({ email, password }));
-      localStorage.setItem("userAuthState", "true");
-    };
-    save();
+    const user = localStorage.getItem("user");
+
+    if (user?.email === email && user?.password === password) {
+      navigate("/setup-org");
+    }
 
     setTimeout(() => {
       toast.success("Account created successfully.");
       setIsLoading(false);
-      navigate("/dashboard");
+      navigate("/setup-org");
     }, 3000);
   };
 
