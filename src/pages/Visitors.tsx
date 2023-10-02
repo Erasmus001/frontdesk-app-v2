@@ -1,9 +1,5 @@
-import React from 'react'
-
 const Visitors = () => {
-  return (
-    <div>Visitors</div>
-  )
-}
+  return <div>Visitors</div>;
+};
 
-export default Visitors
+export default Visitors;

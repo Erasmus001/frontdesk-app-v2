@@ -11,7 +11,7 @@ const Sidebar = () => {
       <div className="w-full h-full flex-1 flex items-start justify-between">
         <div className="w-full flex items-start justify-start flex-col gap-3 p-4 px-6">
           <NavLink
-            to={"/"}
+            to={"/dashboard"}
             className="p-1 w-full rounded-md text-gray-700 font-semibold"
           >
             Dashboard

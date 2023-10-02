@@ -1,19 +1,51 @@
 import Logo from "@/assets/logoipsum-261.svg";
-import { useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 const SetupOrganization = () => {
   const [organizationName, setOrganizationName] = useState<string>("");
   const [organizationEmail, setOrganizationEmail] = useState<string>("");
+  const [role, setRole] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isBlocked, setIsBlocked] = useState<boolean>(true);
 
   const navigate = useNavigate();
 
-  const handleOrganizationSetup = () => {
+  const handleOrganizationSetup = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setIsLoading(true);
-    console.log({ organizationName, organizationEmail });
-    setIsLoading(false);
+    setRole("admin");
+
+    const data = {
+      organizationName,
+      organizationEmail,
+      role,
+      id: crypto.randomUUID(),
+    };
+
+    const saveOrganization = () => {
+      localStorage.setItem("org", JSON.stringify(data));
+    };
+
+    setTimeout(() => {
+      saveOrganization();
+      toast.success("Organization setup complete");
+
+      setTimeout(() => {
+        navigate("/setup-recep");
+        setIsLoading(false);
+      }, 6000);
+    }, 3000);
   };
+
+  useEffect(() => {
+    if (organizationName && organizationEmail) {
+      setIsBlocked(false);
+    } else {
+      setIsBlocked(true);
+    }
+  }, [organizationName, organizationEmail]);
 
   return (
     <main className="w-full h-screen flex items-start justify-start">
@@ -21,14 +53,14 @@ const SetupOrganization = () => {
       <aside className="w-[50%] p-24 flex items-start justify-start flex-col gap-5">
         {/*  */}
         <div className="w-full flex items-center justify-between">
-          <img src={Logo} alt="" loading="eager" />
-          <button
+          <img src={Logo} alt="logo" loading="eager" />
+          {/* <button
             className="p-2 rounded-md bg-transparent hover:bg-gray-100 px-5 text-gray-500 font-normal text-sm"
             type="button"
             onClick={() => navigate("/dashboard")}
           >
             Skip
-          </button>
+          </button> */}
         </div>
         {/* Steps */}
         <div className="flex items-start justify-start flex-col gap-4">
@@ -50,8 +82,11 @@ const SetupOrganization = () => {
               name="name"
               placeholder="John Software Organization"
               required
+              aria-disabled={isLoading}
               disabled={isLoading}
-              className="w-full py-3 px-3 border border-gray-300 rounded-md text-base focus:outline-[#3D79F3] placeholder:text-sm bg-gray-100 focus:bg-transparent"
+              className={`w-full py-3 px-3 border border-gray-300 rounded-md text-base focus:outline-[#3D79F3] placeholder:text-sm bg-gray-100 focus:bg-transparent ${
+                isLoading && "cursor-not-allowed"
+              }`}
               title="Enter your valid email"
               value={organizationName}
               onChange={(event) => setOrganizationName(event.target.value)}
@@ -67,7 +102,11 @@ const SetupOrganization = () => {
               name="email"
               placeholder="Johndoe@example.com"
               required
-              className="w-full py-3 px-3 border border-gray-300 rounded-md text-base focus:outline-[#3D79F3] placeholder:text-sm bg-gray-100 focus:bg-transparent"
+              aria-disabled={isLoading}
+              disabled={isLoading}
+              className={`w-full py-3 px-3 border border-gray-300 rounded-md text-base focus:outline-[#3D79F3] placeholder:text-sm bg-gray-100 focus:bg-transparent ${
+                isLoading && "cursor-not-allowed"
+              }`}
               title="Enter your organization name"
               value={organizationEmail}
               onChange={(event) => setOrganizationEmail(event.target.value)}
@@ -82,8 +121,13 @@ const SetupOrganization = () => {
               Back
             </button>
             <button
+              disabled={isBlocked}
               type="submit"
-              className="p-3 bg-[#3D79F3] w-full text-white text-lg hover:bg-blue-600 hover:ease-linear"
+              className={`${
+                isBlocked || isLoading
+                  ? "cursor-not-allowed bg-gray-400"
+                  : "over:bg-blue-600 hover:ease-linear bg-[#3D79F3] "
+              } p-3 w-full text-white text-lg h`}
             >
               Next
             </button>

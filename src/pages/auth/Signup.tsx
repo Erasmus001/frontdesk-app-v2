@@ -11,23 +11,29 @@ const Signup = () => {
 
   const navigate = useNavigate();
 
-  const handleSignup = (event: FormEvent<HTMLFormElement>) => {
+  const handleSignup = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
 
-    const save = () => {
-      localStorage.setItem("user", JSON.stringify({ email, password }));
-      localStorage.setItem("userAuthState", "true");
-    };
-    save();
-
-    setTimeout(() => {
+    try {
+      const data = await fetch(
+        `http://localhost:3000/api/v1/registerOrganization`,
+        {
+          method: "POST",
+          body: JSON.stringify({ email, password }),
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+      const res = await data.json();
       toast.success("Account created successfully.");
-      setTimeout(() => {
-        navigate("/setup-org");
-        setIsLoading(false);
-      }, 4000);
-    }, 3000);
+      console.log(res);
+      setIsLoading(false);
+      navigate("");
+    } catch (error) {
+      toast.error(error);
+    }
   };
 
   return (
@@ -71,7 +77,7 @@ const Signup = () => {
             type="password"
             id="password"
             name="password"
-            placeholder="Johndoe@example.com"
+            placeholder="*********"
             required
             className={`w-full py-3 px-3 border border-gray-300 rounded-md text-base focus:outline-[#3D79F3] placeholder:text-sm bg-gray-100 focus:bg-transparent ${
               isLoading

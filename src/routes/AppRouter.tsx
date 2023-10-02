@@ -19,12 +19,13 @@ import { useLayoutEffect, useState } from "react";
 import LaunchScreen from "@/pages/LaunchScreen";
 import ResetNewPassword from "@/pages/auth/ResetNewPassword";
 import SetupOrganization from "@/pages/setup/SetupOrganization";
+import CreateReceptionist from "@/pages/setup/CreateReceptionist";
 
 export const isLoggedIn = false;
 
 const AppRouter = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [user, setUser] = useState<object>({});
+  const [user, setUser] = useState<unknown>({});
 
   useLayoutEffect(() => {
     setTimeout(() => {
@@ -33,7 +34,7 @@ const AppRouter = () => {
 
       if (localUserAuthState && localUser) {
         setIsLoggedIn(true);
-        // setUser(localUser)
+        setUser(localUser);
       }
     }, 5000);
   }, [user, isLoggedIn]);
@@ -70,9 +71,9 @@ const UnAuthenticatedRoutes = () => {
         <Route path="/reset-new-password" element={<ResetNewPassword />} />
         <Route path="/verify" element={<VerifyEmail />} />
         <Route path="/setup-org" element={<SetupOrganization />} />
-        <Route path="/create-receptionist" element={<VerifyEmail />} />
+        <Route path="/setup-recep" element={<CreateReceptionist />} />
         <Route element={<DashboardLayout />}>
-          <Route index path="/" element={<Dashboard />} />
+          {/* <Route index path="/" element={<Dashboard />} /> */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/visitors" element={<Visitors />} />
           <Route path="/deliveries" element={<Deliveries />} />

@@ -1,7 +1,12 @@
 {
   "name": "frontdesk-app",
   "private": true,
-  "version": "0.0.0-alpha",
+  "version": "0.0.1",
+  "main": "dist-electron/main.js",
+  "description": "A desktop version of a web application for managing visitors in an organization",
+  "author": "Erasmus Mensah",
+  "email": "erasmusmensah00@gmail.com",
+  "icon": "/public/icon.png",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && electron-builder",
@@ -51,6 +56,5 @@
     "vite": "^4.4.9",
     "vite-plugin-electron": "^0.14.0",
     "vite-plugin-electron-renderer": "^0.14.5"
-  },
-  "main": "dist-electron/main.js"
+  }
 }

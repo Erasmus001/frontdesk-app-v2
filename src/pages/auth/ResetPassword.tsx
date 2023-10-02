@@ -28,7 +28,7 @@ const ResetPassword = () => {
     <main className="h-screen w-screen flex items-center justify-center text-black flex-col gap-12">
       {/* Header */}
       <div className="flex items-center justify-center flex-col gap-3">
-        <img src={Logo} alt="" loading="eager" className="mb-8"/>
+        <img src={Logo} alt="" loading="eager" className="mb-8" />
         <h2 className="text-3xl font-bold">Reset Password</h2>
         <p className="text-center w-[400px] text-base">
           Enter the email use for your account creation to receive your password
@@ -54,10 +54,10 @@ const ResetPassword = () => {
             onChange={(event) => setEmail(event.target.value)}
             required
             disabled={isLoading}
-            className={`w-full py-3 px-3 border border-gray-300 rounded-md text-base focus:outline-[#3D79F3] placeholder:text-sm bg-gray-100 focus:bg-transparent ${
+            className={`w-full py-3 px-3 border border-gray-300 rounded-md text-base  placeholder:text-sm bg-gray-100 focus:bg-transparent ${
               isLoading
-                ? "bg-gray-100 cursor-not-allowed text-gray-400"
-                : "bg-gray-100"
+                ? "bg-gray-100 cursor-not-allowed text-gray-400 pointer-events-none"
+                : "bg-gray-100 focus:outline-[#3D79F3]"
             }`}
             title="Enter your valid email"
           />
@@ -68,7 +68,7 @@ const ResetPassword = () => {
             disabled={isLoading}
             className={`p-3 bg-[#3D79F3] w-full text-white text-lg hover:ease-linear ${
               isLoading
-                ? "cursor-not-allowed"
+                ? "cursor-not-allowed pointer-events-none"
                 : "cursor-pointer hover:bg-blue-600 "
             }`}
           >

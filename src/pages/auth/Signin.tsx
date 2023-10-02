@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // import Button from "@/components/ui/Button";
-import { FormEvent, useLayoutEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "@/assets/logoipsum-261.svg";
@@ -18,7 +18,7 @@ const Signin = () => {
 
     const user = localStorage.getItem("user");
 
-    if (user?.email === email && user?.password === password) {
+    if (user) {
       navigate("/setup-org");
     }
 
@@ -54,7 +54,11 @@ const Signin = () => {
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             required
-            className="w-full py-3 px-3 border border-gray-300 rounded-md text-base focus:outline-[#3D79F3] placeholder:text-sm bg-gray-100 focus:bg-transparent"
+            className={`w-full py-3 px-3 border border-gray-300 rounded-md text-base focus:outline-[#3D79F3] placeholder:text-sm bg-gray-100 focus:bg-transparent ${
+              isLoading
+                ? "bg-gray-100 cursor-not-allowed text-gray-400 pointer-events-none"
+                : "bg-gray-100"
+            }`}
             title="Enter your valid email"
           />
         </div>
@@ -70,7 +74,11 @@ const Signin = () => {
             value={password}
             onChange={(event) => setPassword(event.target.value)}
             required
-            className="w-full py-3 px-3 border border-gray-300 rounded-md text-base focus:outline-[#3D79F3] placeholder:text-sm bg-gray-100 focus:bg-transparent"
+            className={`w-full py-3 px-3 border border-gray-300 rounded-md text-base  placeholder:text-sm bg-gray-100 focus:bg-transparent ${
+              isLoading
+                ? "bg-gray-100 cursor-not-allowed text-gray-400 pointer-events-none"
+                : "bg-gray-100 focus:outline-[#3D79F3]"
+            }`}
             title="Create a strong password"
           />
           <div className="flex w-full items-center justify-between text-base">
@@ -89,7 +97,12 @@ const Signin = () => {
         <div className="w-full">
           <button
             type="submit"
-            className="p-3 bg-[#3D79F3] w-full text-white text-lg hover:bg-blue-600 hover:ease-linear"
+            disabled={isLoading}
+            className={`p-3 bg-[#3D79F3] w-full text-white text-lg hover:ease-linear ${
+              isLoading
+                ? "cursor-not-allowed"
+                : "cursor-pointer hover:bg-blue-600 "
+            }`}
           >
             {isLoading ? "Signing in" : "Sign in"}
           </button>
