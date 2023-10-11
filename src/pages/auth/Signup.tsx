@@ -1,7 +1,8 @@
-import Button from "@/components/ui/Button";
+// import Button from "@/components/ui/Button";
 import { FormEvent, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
+import Logo from "@/assets/logoipsum-261.svg";
 
 const Signup = () => {
   const [email, setEmail] = useState<string>("");
@@ -10,37 +11,46 @@ const Signup = () => {
 
   const navigate = useNavigate();
 
-  const handleSignup = (event: FormEvent<HTMLFormElement>) => {
+  const handleSignup = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
 
-    const save = () => {
-      localStorage.setItem("user", JSON.stringify({ email, password }));
-    };
-    save();
-
-    setTimeout(() => {
+    try {
+      const data = await fetch(
+        `http://localhost:3000/api/v1/registerOrganization`,
+        {
+          method: "POST",
+          body: JSON.stringify({ email, password }),
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+      const res = await data.json();
       toast.success("Account created successfully.");
+      console.log(res);
       setIsLoading(false);
-      // window.location.reload() 
-      navigate("/dashboard");
-    }, 3000);
+      navigate("");
+    } catch (error) {
+      toast.error(error);
+    }
   };
 
   return (
-    <main className="h-screen w-screen flex items-center justify-center text-black flex-col gap-7">
+    <main className="h-screen w-screen flex items-center justify-center text-black flex-col gap-12">
       {/* Header */}
-      <div className="text-center">
+      <div className="flex items-center justify-center flex-col gap-3">
+        <img src={Logo} alt="" loading="eager" className="mb-8" />
         <h2 className="text-3xl font-bold">Create an Account</h2>
       </div>
 
       {/* Form */}
       <form
-        className="w-[330px] flex items-start flex-col gap-4"
+        className="w-[380px] flex items-start flex-col gap-4"
         onSubmit={handleSignup}
       >
         <div className="w-full flex items-start justify-start flex-col gap-2">
-          <label htmlFor="email" className="text-base font-semibold">
+          <label htmlFor="email" className="text-lg font-semibold">
             Email
           </label>
           <input
@@ -49,49 +59,51 @@ const Signup = () => {
             name="email"
             placeholder="Johndoe@example.com"
             required
-            className="w-full py-2 px-3 border border-gray-300 rounded-md text-base focus:outline-[#3D79F3] placeholder:text-sm"
+            className={`w-full py-3 px-3 border border-gray-300 rounded-md text-base focus:outline-[#3D79F3] placeholder:text-sm bg-gray-100 focus:bg-transparent ${
+              isLoading
+                ? "bg-gray-100 cursor-not-allowed text-gray-400"
+                : "bg-gray-100"
+            }`}
             title="Enter your valid email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
         </div>
         <div className="w-full flex items-start justify-start flex-col gap-2">
-          <label htmlFor="password" className="text-base font-semibold">
+          <label htmlFor="password" className="text-lg font-semibold">
             Password
           </label>
           <input
             type="password"
             id="password"
             name="password"
-            placeholder="Johndoe@example.com"
+            placeholder="*********"
             required
-            className="w-full py-2 px-3 border border-gray-300 rounded-md text-base focus:outline-[#3D79F3] placeholder:text-sm"
+            className={`w-full py-3 px-3 border border-gray-300 rounded-md text-base focus:outline-[#3D79F3] placeholder:text-sm bg-gray-100 focus:bg-transparent ${
+              isLoading
+                ? "bg-gray-100 cursor-not-allowed text-gray-400"
+                : "bg-gray-100"
+            }`}
             title="Create a strong password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
         </div>
         <div className="w-full">
-          {/* <button
-            className={` ${
-              isLoading
-                ? "bg-blue-700 cursor-not-allowed"
-                : "bg-[#3D79F3] cursor-pointer"
-            }  w-full p-3 text-white hover:bg-blue-600 ease-linear`}
+          <button
+            type="submit"
+            className="p-3 bg-[#3D79F3] w-full text-white text-lg hover:bg-blue-600 hover:ease-linear"
           >
-            
-          </button> */}
-          <Button bgColor="#3D79F3" color="white" type="submit">
-            {isLoading ? "Signing up..." : "Sign up"}
-          </Button>
+            {isLoading ? "Signing up" : "Sign up"}
+          </button>
         </div>
       </form>
       <div>
-        <span className="flex items-center justify-center gap-2">
+        <span className="flex items-center justify-center gap-2 text-lg">
           <p>Already have an account?</p>
           <Link
             to={"/signin"}
-            className="hover:underline hover:underline-offset-2"
+            className="hover:underline hover:underline-offset-2 text-[#3D79F3]"
           >
             Signin
           </Link>

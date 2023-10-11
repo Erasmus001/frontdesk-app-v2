@@ -26,7 +26,7 @@ const Button: FC<ButtonProp> = ({
           variant === "outlined"
             ? "white"
             : variant === "filled"
-            ? "#3D79F3"
+            ? "#2d0ce8"
             : variant === "default"
             ? bgColor
             : bgColor
@@ -52,7 +52,7 @@ const Button: FC<ButtonProp> = ({
         }`,
         width: "100%",
       }}
-      className={`w-full p-2 py-2.5 hover:opacity-80`}
+      className={`w-full px-8 py-2 hover:opacity-80 text-base`}
     >
       {children}
     </button>
